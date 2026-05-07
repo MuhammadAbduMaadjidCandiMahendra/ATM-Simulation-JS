@@ -9,7 +9,7 @@
 <body>
   <aside>
     <section>
-      <h1 id="title">Hello world</h1>
+      <h1 id="title">ATM Simulation</h1>
       <ul>
         <li><a id="to-dashboard" href="/dashboard">Dashboard</a></li>
         <li><a id="to-deposit" href="/deposit">Deposit Cash</a></li>
@@ -37,9 +37,17 @@
 
       <div id="deposit-content" style="display: none;">
         <form action="/deposit" method="post">
-          <label for="amount">Amount</label>
-          <input type="number" name="amount" id="amount" placeholder="Enter amount" />
+          <label for="deposit-amount">Deposit amount</label>
+          <input type="number" name="deposit-amount" id="deposit-amount" placeholder="Enter deposit amount" />
           <button type="submit">Deposit</button>
+        </form>
+      </div>
+
+      <div id="withdraw-content" style="display: none;">
+        <form action="/withdraw" method="post">
+          <label for="withdraw-amount">Withdraw amount</label>
+          <input type="number" name="withdraw-amount" id="withdraw-amount" placeholder="Enter withdraw amount" />
+          <button type="submit">Withdraw</button>
         </form>
       </div>
 

@@ -1,6 +1,3 @@
-document.getElementById("title")
-  .innerHTML = "ATM Simulation";
-
 let contentTitle = document.getElementById("content-title");
 let dashboardContent = document.getElementById("dashboard-content");
 let depositContent = document.getElementById("deposit-content");

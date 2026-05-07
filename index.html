@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="index.css" />
+  <title>ATM-Simulation</title>
+</head>
+<body>
+  <aside>
+    <h1 id="title">Hello world</h1>
+    <h2>Phase 1</h2>
+    <ul>
+      <li><a id="to-dashboard" href="/dashboard">Dashboard</a></li>
+      <li><a id="to-deposit" href="/deposit">Deposit Cash</a></li>
+      <li><a id="to-withdraw" href="/withdraw">Withdraw</a></li>
+    </ul>
+  </aside>
+
+  <main>
+    <header>
+      <h1 id="content-title">Dashboard</h1>
+    </header>
+
+    // todo nice to hash routes, haschange listener
+    <section id="main-section">
+      <div id="dashboard-content">
+        <h2>Name: <span id="name">John Doe</span></h2>
+        <h2>Account: <span id="account">123456</span></h2>
+        <h2>Balance: <span id="balance">99.000.000</span></h2>
+      </div>
+
+      <div id="deposit-content" style="display: none;">
+        <form action="/deposit" method="post">
+          <label for="amount">Amount</label>
+          <input type="number" name="amount" id="amount" placeholder="Enter amount" />
+          <button type="submit">Deposit</button>
+        </form>
+      </div>
+
+    </section>
+  </main>
+
+  <script src="main.js"></script>
+</body>
+</html>

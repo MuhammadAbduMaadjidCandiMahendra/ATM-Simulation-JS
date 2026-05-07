@@ -1,0 +1,17 @@
+body {
+    display: grid;
+    grid-template-columns: 25% auto;
+    min-height: 100vh;
+}
+
+aside {
+    border: 1px solid black;
+}
+
+header {
+    border: 1px solid black;
+}
+
+#main-section {
+    border: 1px solid black;
+}

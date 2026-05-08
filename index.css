@@ -1,20 +1,134 @@
+@property --color-900 {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #141d61;
+}
+
+@property --color-800 {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #1e2b8f;
+}
+
+@property --color-700 {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #2b3cbb;
+}
+
+@property --color-600 {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #3c4fe0;
+}
+
+@property --color-500 {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #5468ff;
+}
+
+@property --color-400 {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #7c8aff;
+}
+
+@property --color-300 {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #a3acff;
+}
+
+@property --color-200 {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #cacfff;
+}
+
+@property --color-100 {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #f2f3ff;
+}
+
 body {
-    display: grid;
-    grid-template-columns: 25% auto;
-    min-height: 100vh;
+  display: grid;
+  grid-template-columns: 20% auto;
+  min-height: 100vh;
+  font-size: 1rem;
+  font-family: Helvetica, Arial, sans-serif;
+  margin: 0;
+}
+
+hr {
+  margin: 1rem 0;
+  color: inherit;
+  background-color: black;
+  border: 0;
+  opacity: .25;
+  height: 1px;
 }
 
 aside {
-    border: 1px solid black;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+  display: flex;
+  flex-direction: column;
+  background-color: var( --color-100);
+  padding: 1rem;
 }
 
-header {
-    border: 1px solid black;
+.brand {
+  padding: 1rem;
+  margin: 0;
+  color: var( --color-800 );
 }
 
-#main-section {
-    border: 1px solid black;
+.sidebar-nav {
+  margin-top: 0;
+  margin-bottom: auto !important;
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  font-size: 1.25rem;
+}
+
+.sidebar-nav a {
+  display: block;
+  text-decoration: none;
+  padding: 1rem 1rem;
+  margin-bottom: .5rem;
+  font-weight: bold;
+  background-color: var( --color-200);
+  border-radius: .5rem;
+}
+
+.sidebar-nav a:link {
+  color: var(--color-500);
+}
+
+.sidebar-nav a:visited {
+  color: var(--color-700);
+}
+
+.sidebar-nav a:active {
+  color: var(--color-800);
+}
+
+.sidebar-nav a:hover {
+  background-color: var(--color-300);
+}
+
+footer {
+  padding: .25rem .50rem;
+  font-weight: bold;
+  color: var( --color-800);
+}
+
+main {
+  background-color: var( --color-400);
+}
+
+.page-title {
+  padding: 1rem;
 }

@@ -1,7 +1,14 @@
+import { login } from "./http-request.js";
+
 let contentTitle = document.getElementById("content-title");
+
 let dashboardContent = document.getElementById("dashboard-content");
 let depositContent = document.getElementById("deposit-content");
 let withdrawContent = document.getElementById("withdraw-content");
+
+let linkToDeposit = document.getElementById("to-deposit");
+let linkToDashboard = document.getElementById("to-dashboard");
+let linkToWithdraw = document.getElementById("to-withdraw");
 
 const showDashboardContent = () => {
   dashboardContent.style.display = "block";
@@ -24,17 +31,17 @@ const showWithdrawContent = () => {
   contentTitle.innerHTML = "Withdraw";
 }
 
-document.getElementById("to-deposit").addEventListener("click", (event) => {
+linkToDeposit.addEventListener("click", (event) => {
   event.preventDefault();
   showDepositContent();
 })
 
-document.getElementById("to-dashboard").addEventListener("click", (event) => {
+linkToDashboard.addEventListener("click", (event) => {
   event.preventDefault();
   showDashboardContent();
 })
 
-document.getElementById("to-withdraw").addEventListener("click", (event) => {
+linkToWithdraw.addEventListener("click", (event) => {
   event.preventDefault();
   showWithdrawContent();
 })

@@ -31,17 +31,30 @@ const showWithdrawContent = () => {
   contentTitle.innerHTML = "Withdraw";
 }
 
+const activateNavItem = (linkElement) => {
+  let ul = document.getElementsByClassName("sidebar-nav");
+  let list = ul[0].getElementsByTagName("li");
+  for (const li of list) {
+    li.getElementsByTagName("a")[0].classList.remove("nav-item-active");
+  }
+
+  linkElement.classList.add("nav-item-active");
+}
+
 linkToDeposit.addEventListener("click", (event) => {
   event.preventDefault();
   showDepositContent();
+  activateNavItem(linkToDeposit);
 })
 
 linkToDashboard.addEventListener("click", (event) => {
   event.preventDefault();
   showDashboardContent();
+  activateNavItem(linkToDashboard);
 })
 
 linkToWithdraw.addEventListener("click", (event) => {
   event.preventDefault();
   showWithdrawContent();
+  activateNavItem(linkToWithdraw);
 })

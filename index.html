@@ -27,24 +27,46 @@
 
     <section id="main-section">
       <div id="dashboard-content">
-        <h2>Name: <span id="name">John Doe</span></h2>
-        <h2>Account: <span id="account">123456</span></h2>
-        <h2>Balance: <span id="balance">99.000.000</span></h2>
+        <div class="form-group">
+          <div class="input-group">
+            <label for="accountName">Name</label>
+            <input type="text" name="accountName" id="accountName" placeholder="" value="John Doe" />
+          </div>
+
+          <div class="input-group">
+            <label for="accountNumber">Account Number</label>
+            <input type="number" name="accountNumber" id="accountNumber" placeholder="" value="123456" />
+          </div>
+
+          <div class="input-group">
+            <label for="balance">Balance</label>
+            <input type="number" name="balance" id="balance" placeholder="" value="100000" />
+          </div>
+
+        </div>
       </div>
 
       <div id="deposit-content" style="display: none;">
-        <form action="/deposit" method="post">
-          <label for="deposit-amount">Deposit amount</label>
-          <input type="number" name="deposit-amount" id="deposit-amount" placeholder="Enter deposit amount" />
-          <button type="submit">Deposit</button>
+        <form action="/deposit" method="post" class="form-group">
+
+          <div class="input-group">
+            <label for="deposit-amount">Deposit amount</label>
+            <input type="number" name="deposit-amount" id="deposit-amount" placeholder="Enter deposit amount" />
+          </div>
+
+          <button class="btn" type="submit">Deposit</button>
         </form>
       </div>
 
       <div id="withdraw-content" style="display: none;">
-        <form action="/withdraw" method="post">
-          <label for="withdraw-amount">Withdraw amount</label>
-          <input type="number" name="withdraw-amount" id="withdraw-amount" placeholder="Enter withdraw amount" />
-          <button type="submit">Withdraw</button>
+        <form action="/withdraw" method="post" class="form-group">
+
+          <div class="input-group">
+            <label for="withdraw-amount">Withdraw amount</label>
+            <input type="number" name="withdraw-amount" id="withdraw-amount" placeholder="Enter withdraw amount" />
+          </div>
+          
+          <button class="btn" type="submit">Withdraw</button>
         </form>
       </div>
 

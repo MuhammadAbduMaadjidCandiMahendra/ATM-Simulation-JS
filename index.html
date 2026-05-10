@@ -28,19 +28,25 @@
     <section id="main-section">
       <div id="dashboard-content">
         <div class="form-group">
-          <div class="input-group">
-            <label for="accountName">Name</label>
-            <input type="text" name="accountName" id="accountName" placeholder="" value="John Doe" />
-          </div>
+
+          <form action="/action" method="get" id="getAccountInfoForm">
+            <div class="input-group">
+              <label for="accountNumber">Account Number</label>
+              <input type="number" name="accountNumber" id="accountNumber" placeholder="Type account number here..." />
+            </div>
+            <button class="btn" type="submit">Find account info</button>
+          </form>
+
+          <hr>
 
           <div class="input-group">
-            <label for="accountNumber">Account Number</label>
-            <input type="number" name="accountNumber" id="accountNumber" placeholder="" value="123456" />
+            <label for="accountName">Name</label>
+            <input type="text" name="accountName" id="accountName" readonly/>
           </div>
 
           <div class="input-group">
             <label for="balance">Balance</label>
-            <input type="number" name="balance" id="balance" placeholder="" value="100000" />
+            <input type="number" name="balance" id="balance" readonly/>
           </div>
 
         </div>
@@ -65,7 +71,7 @@
             <label for="withdraw-amount">Withdraw amount</label>
             <input type="number" name="withdraw-amount" id="withdraw-amount" placeholder="Enter withdraw amount" />
           </div>
-          
+
           <button class="btn" type="submit">Withdraw</button>
         </form>
       </div>

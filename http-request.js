@@ -20,3 +20,17 @@ export const login = async (accountNumber) => {
 
   return await response.json();
 }
+
+export const findAccountByAccountNumber = async (accountNumber) => {
+  let response = await fetch(`http://localhost:8080/account?accountNumber=${accountNumber}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      accountNumber,
+    })
+  });
+
+  return await response.json();
+}

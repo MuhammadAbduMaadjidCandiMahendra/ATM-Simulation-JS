@@ -23,14 +23,12 @@ export const login = async (accountNumber) => {
 
 export const findAccountByAccountNumber = async (accountNumber) => {
   let response = await fetch(`http://localhost:8080/account?accountNumber=${accountNumber}`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      accountNumber,
-    })
+    method: "GET",
   });
+
+  if (!response.ok) {
+    throw response;
+  }
 
   return await response.json();
 }

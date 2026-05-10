@@ -28,27 +28,25 @@
     <section id="main-section">
       <div id="dashboard-content">
         <div class="form-group">
-
           <form action="/action" method="get" id="getAccountInfoForm">
             <div class="input-group">
               <label for="accountNumber">Account Number</label>
-              <input type="number" name="accountNumber" id="accountNumber" placeholder="Type account number here..." />
+              <div class="input-container">
+                <input type="number" name="accountNumber" id="accountNumber" placeholder="Type account number here..." />
+                <span class="text-error"></span>
+              </div>
             </div>
             <button class="btn" type="submit">Find account info</button>
+            <hr>
+            <div class="input-group">
+              <label for="accountName">Name</label>
+              <input type="text" name="accountName" id="accountName" readonly/>
+            </div>
+            <div class="input-group">
+              <label for="balance">Balance</label>
+              <input type="number" name="balance" id="balance" readonly/>
+            </div>
           </form>
-
-          <hr>
-
-          <div class="input-group">
-            <label for="accountName">Name</label>
-            <input type="text" name="accountName" id="accountName" readonly/>
-          </div>
-
-          <div class="input-group">
-            <label for="balance">Balance</label>
-            <input type="number" name="balance" id="balance" readonly/>
-          </div>
-
         </div>
       </div>
 

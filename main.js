@@ -1,4 +1,4 @@
-import { login } from "./http-request.js";
+import { findAccountByAccountNumber } from "./http-request.js";
 
 let contentTitle = document.getElementById("content-title");
 
@@ -58,3 +58,32 @@ linkToWithdraw.addEventListener("click", (event) => {
   showWithdrawContent();
   activateNavItem(linkToWithdraw);
 })
+
+const formAccountInfo = document.getElementById("getAccountInfoForm");
+formAccountInfo.addEventListener("submit", (event) => {
+  event.preventDefault();
+
+  let accountNumberInput = formAccountInfo.elements['accountNumber'];
+  let accountNameInput = formAccountInfo.elements['accountName'];
+  let balanceInput = formAccountInfo.elements['balance'];
+
+  accountNumberInput.classList.remove("input-error");
+  accountNumberInput.nextElementSibling.innerHTML = "";
+  accountNameInput.value = "";
+  balanceInput.value = "";
+
+  const formData = new FormData(formAccountInfo);
+  const accountNumber = formData.get("accountNumber");
+  findAccountByAccountNumber(accountNumber)
+    .then(response => {
+      accountNameInput.value = response.name;
+      balanceInput.value = response.balance;
+    })
+    .catch(error => {
+      error.json().then(errBody => {
+        accountNumberInput.classList.add("input-error");
+        accountNumberInput.nextElementSibling.innerHTML = errBody.detail
+      });
+    });
+});
+

@@ -52,6 +52,12 @@
   initial-value: #f2f3ff;
 }
 
+@property --color-other-2 {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #83111e;
+}
+
 @property --color-other-1 {
   syntax: "<color>";
   inherits: true;
@@ -184,6 +190,12 @@ main hr {
   border-radius: .25rem;
 }
 
+.input-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
 .btn {
   color: var( --color-100);
   background-color: var( --color-other-1);
@@ -193,4 +205,15 @@ main hr {
   border: 0;
   border-radius: .25rem;
   width: 100%;
+}
+
+.input-error {
+  border: 3px solid var( --color-other-2) !important;
+}
+
+.text-error {
+  color: var( --color-other-2);
+  font-size: 1rem;
+  font-weight: normal;
+  margin-top: .25rem;
 }

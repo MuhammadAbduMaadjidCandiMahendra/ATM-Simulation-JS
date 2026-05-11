@@ -22,7 +22,7 @@ export const login = async (accountNumber) => {
 }
 
 export const findAccountByAccountNumber = async (accountNumber) => {
-  let response = await fetch(`http://localhost:8080/account?accountNumber=${accountNumber}`, {
+  let response = await fetch(`http://localhost:8080/account/${accountNumber}`, {
     method: "GET",
   });
 

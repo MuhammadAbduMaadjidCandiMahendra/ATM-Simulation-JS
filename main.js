@@ -142,6 +142,8 @@ formAccountInfo.addEventListener("submit", async (event) => {
 
 formWithdraw.addEventListener("submit", async (event) => {
   event.preventDefault();
+  clearForm(formWithdraw, "accountNumber", "balance", "withdrawAmount");
+  hideSuccessInput(document.getElementById("withdrawSuccess"));
 
   const formData = new FormData(formWithdraw);
   const accountNumber = formData.get("accountNumber");

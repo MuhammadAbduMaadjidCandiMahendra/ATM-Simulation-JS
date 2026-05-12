@@ -1,6 +1,6 @@
 import {findAccountByAccountNumber, withdraw} from "./http-request.js";
 
-const ACCOUNT_INFO_LOCAL_STORAGE_KEY = "accountInfo"; // todo store accoun number only
+const ACCOUNT_NUMBER_LOCAL_STORAGE_KEY = "account";
 
 let contentTitle = document.getElementById("content-title");
 
@@ -69,10 +69,9 @@ linkToDashboard.addEventListener("click", async (event) => {
   activateNavItem(linkToDashboard);
   clearForm(formAccountInfo);
 
-  const accountInfoJson = globalThis.localStorage.getItem(ACCOUNT_INFO_LOCAL_STORAGE_KEY);
-  if (accountInfoJson) {
-    const accountInfo = JSON.parse(accountInfoJson);
-    const account = await findAccountByAccountNumber(accountInfo.accountNumber);
+  const accountNumber = globalThis.localStorage.getItem(ACCOUNT_NUMBER_LOCAL_STORAGE_KEY);
+  if (accountNumber) {
+    const account = await findAccountByAccountNumber(accountNumber);
     formAccountInfo.elements["accountNumber"].value = account.accountNumber;
     formAccountInfo.elements["accountName"].value = account.name;
     formAccountInfo.elements["balance"].value = account.balance;
@@ -92,10 +91,9 @@ linkToWithdraw.addEventListener("click", async (event) => {
   clearForm(formWithdraw);
   hideSuccessInput(document.getElementById("withdrawSuccess"));
 
-  const accountInfoJson = globalThis.localStorage.getItem(ACCOUNT_INFO_LOCAL_STORAGE_KEY);
-  if (accountInfoJson) {
-    const accountInfo = JSON.parse(accountInfoJson);
-    const account = await findAccountByAccountNumber(accountInfo.accountNumber);
+  const accountNumber = globalThis.localStorage.getItem(ACCOUNT_NUMBER_LOCAL_STORAGE_KEY);
+  if (accountNumber) {
+    const account = await findAccountByAccountNumber(accountNumber);
     formWithdraw.elements["accountNumber"].value = account.accountNumber;
     formWithdraw.elements["balance"].value = account.balance;
   }
@@ -133,7 +131,7 @@ formAccountInfo.addEventListener("submit", async (event) => {
     let response = await findAccountByAccountNumber(accountNumber);
     formAccountInfo.elements['accountName'].value = response.name;
     formAccountInfo.elements['balance'].value = response.balance;
-    globalThis.localStorage.setItem(ACCOUNT_INFO_LOCAL_STORAGE_KEY, JSON.stringify(response)); // todo store account number only
+    globalThis.localStorage.setItem(ACCOUNT_NUMBER_LOCAL_STORAGE_KEY, response.accountNumber);
   } catch (error) {
     const errBody = await error.json();
     showErrorInput(formAccountInfo.elements['accountNumber'], errBody.detail);

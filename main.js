@@ -1,4 +1,6 @@
-import {findAccountByAccountNumber} from "./http-request.js";
+import {findAccountByAccountNumber, withdraw} from "./http-request.js";
+
+const ACCOUNT_INFO_LOCAL_STORAGE_KEY = "accountInfo"; // todo store accoun number only
 
 let contentTitle = document.getElementById("content-title");
 
@@ -60,11 +62,20 @@ const activateNavItem = (linkElement) => {
   linkElement.classList.add("nav-item-active");
 }
 
-linkToDashboard.addEventListener("click", (event) => {
+linkToDashboard.addEventListener("click", async (event) => {
   event.preventDefault();
   showDashboardContent();
   activateNavItem(linkToDashboard);
   clearForm(formAccountInfo);
+
+  const accountInfoJson = globalThis.localStorage.getItem(ACCOUNT_INFO_LOCAL_STORAGE_KEY);
+  if (accountInfoJson) {
+    const accountInfo = JSON.parse(accountInfoJson);
+    const account = await findAccountByAccountNumber(accountInfo.accountNumber);
+    formAccountInfo.elements["accountNumber"].value = account.accountNumber;
+    formAccountInfo.elements["accountName"].value = account.name;
+    formAccountInfo.elements["balance"].value = account.balance;
+  }
 });
 
 linkToDeposit.addEventListener("click", (event) => {
@@ -79,7 +90,12 @@ linkToWithdraw.addEventListener("click", (event) => {
   activateNavItem(linkToWithdraw);
 });
 
-formAccountInfo.addEventListener("submit", (event) => {
+const showErrorInput = (element, errorMessage) => {
+  element.classList.add("input-error");
+  element.nextElementSibling.innerHTML = errorMessage;
+}
+
+formAccountInfo.addEventListener("submit", async (event) => {
   event.preventDefault();
   clearForm(formAccountInfo, "accountNumber");
 
@@ -87,20 +103,18 @@ formAccountInfo.addEventListener("submit", (event) => {
   const accountNumber = formData.get("accountNumber");
 
   if (!accountNumber) {
-    styleInputError(formAccountInfo.elements["accountNumber"], "Please input valid account number");
+    showErrorInput(formAccountInfo.elements["accountNumber"], "Please input valid account number");
     return;
   }
 
-  findAccountByAccountNumber(accountNumber)
-    .then(response => {
-      formAccountInfo.elements['accountName'].value = response.name;
-      formAccountInfo.elements['balance'].value = response.balance;
-    })
-    .catch(error => {
-      error.json().then(errBody => {
-        formAccountInfo.elements['accountNumber'].classList.add("input-error");
-        formAccountInfo.elements['accountNumber'].nextElementSibling.innerHTML = errBody.detail
-      });
-    });
+  try {
+    let response = await findAccountByAccountNumber(accountNumber);
+    formAccountInfo.elements['accountName'].value = response.name;
+    formAccountInfo.elements['balance'].value = response.balance;
+    globalThis.localStorage.setItem(ACCOUNT_INFO_LOCAL_STORAGE_KEY, JSON.stringify(response)); // todo store account number only
+  } catch (error) {
+    const errBody = await error.json();
+    showErrorInput(formAccountInfo.elements['accountNumber'], errBody.detail);
+  }
 });
 

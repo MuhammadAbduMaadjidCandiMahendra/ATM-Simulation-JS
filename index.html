@@ -12,8 +12,8 @@
     <hr>
     <ul class="sidebar-nav">
       <li><a id="to-dashboard" href="/dashboard">Dashboard</a></li>
-      <li><a id="to-deposit" href="/deposit">Deposit Cash</a></li>
       <li><a id="to-withdraw" href="/withdraw">Withdraw</a></li>
+      <li style="display: none"><a id="to-deposit" href="/deposit">Deposit Cash</a></li>
     </ul>
     <hr>
     <footer>White belt</footer>
@@ -63,13 +63,33 @@
       </div>
 
       <div id="withdraw-content" style="display: none;">
-        <form action="/withdraw" method="post" class="form-group">
+        <form id="withdrawForm" action="/withdraw" method="post" class="form-group">
 
           <div class="input-group">
-            <label for="withdraw-amount">Withdraw amount</label>
-            <input type="number" name="withdraw-amount" id="withdraw-amount" placeholder="Enter withdraw amount" />
+            <label for="wf-accountNumber">Account Number</label>
+            <div class="input-container">
+              <input type="number" name="accountNumber" id="wf-accountNumber" readonly />
+              <span class="text-error"></span>
+            </div>
           </div>
 
+          <div class="input-group">
+            <label for="wf-balance">Balance</label>
+            <input type="number" name="balance" id="wf-balance" readonly/>
+          </div>
+
+          <div class="input-group">
+            <label for="withdrawAmount">Withdraw amount</label>
+            <div class="input-container">
+              <input type="number" name="withdrawAmount" id="withdrawAmount" placeholder="Enter withdraw amount"/>
+              <span class="text-error"></span>
+            </div>
+          </div>
+
+          <div class="input-group">
+            <div></div>
+            <span id="withdrawSuccess" hidden>test</span>
+          </div>
           <button class="btn" type="submit">Withdraw</button>
         </form>
       </div>

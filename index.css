@@ -217,3 +217,8 @@ main hr {
   font-weight: normal;
   margin-top: .25rem;
 }
+
+.success-message {
+  color: var( --color-other-1);
+  font-size: 1rem;
+}

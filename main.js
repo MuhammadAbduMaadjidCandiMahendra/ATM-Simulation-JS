@@ -143,14 +143,24 @@ formAccountInfo.addEventListener("submit", async (event) => {
 formWithdraw.addEventListener("submit", async (event) => {
   event.preventDefault();
 
-  if (!formWithdraw.elements["accountNumber"].value) {
+  const formData = new FormData(formWithdraw);
+  const accountNumber = formData.get("accountNumber");
+  const withdrawAmount = formData.get("withdrawAmount");
+
+  if (!accountNumber) {
     showErrorInput(formWithdraw.elements["accountNumber"], "Account number is required");
     return;
   }
 
-  const formData = new FormData(formWithdraw);
-  const withdrawAmount = formData.get("withdrawAmount");
-  const accountNumber = formData.get("accountNumber");
+  if (!withdrawAmount) {
+    showErrorInput(formWithdraw.elements["withdrawAmount"], "Withdraw amount is required");
+    return;
+  }
+
+  if (withdrawAmount <= 0) {
+    showErrorInput(formWithdraw.elements["withdrawAmount"], "Should be greater than 0");
+    return;
+  }
 
   try {
     const account = await withdraw(accountNumber, withdrawAmount);

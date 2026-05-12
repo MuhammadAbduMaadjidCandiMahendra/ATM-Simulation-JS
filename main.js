@@ -85,6 +85,12 @@ formAccountInfo.addEventListener("submit", (event) => {
 
   const formData = new FormData(formAccountInfo);
   const accountNumber = formData.get("accountNumber");
+
+  if (!accountNumber) {
+    styleInputError(formAccountInfo.elements["accountNumber"], "Please input valid account number");
+    return;
+  }
+
   findAccountByAccountNumber(accountNumber)
     .then(response => {
       formAccountInfo.elements['accountName'].value = response.name;

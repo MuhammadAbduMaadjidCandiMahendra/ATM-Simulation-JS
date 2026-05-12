@@ -51,7 +51,14 @@ export const findAccountByAccountNumber = async (accountNumber) => {
 
 /**
  * Withdraw money from an account.
- * If successful, the server will return HTTP status 200 without any content.
+ * If successful, the server will return HTTP status 200 with account details body:
+ * <pre>
+ * {
+ *   "accountNumber": "100001",
+ *   "name": "John Doe",
+ *   "balance": 4950
+ * }
+ * </pre>
  *
  * Any return status other than 200 will be treated as an error.
  * Following is an example of an error response body:
@@ -67,7 +74,7 @@ export const findAccountByAccountNumber = async (accountNumber) => {
  *
  * @param accountNumber
  * @param amount
- * @return {Promise<void>}
+ * @return {Promise<any>}
  */
 export const withdraw = async (accountNumber, amount) => {
   const response = await fetch(`http://localhost:8080/transaction/withdraw`, {
@@ -84,4 +91,6 @@ export const withdraw = async (accountNumber, amount) => {
   if (!response.ok) {
     throw response;
   }
+
+  return await response.json();
 }

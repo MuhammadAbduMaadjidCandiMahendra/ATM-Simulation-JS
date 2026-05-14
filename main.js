@@ -1,37 +1,17 @@
 import {findAccountByAccountNumber, withdraw} from "./http-request.js";
+import {dashboardContent} from "./components.js";
 
 const ACCOUNT_NUMBER_LOCAL_STORAGE_KEY = "account";
 
 let contentTitle = document.getElementById("content-title");
 
-let dashboardContent = document.getElementById("dashboard-content");
-let depositContent = document.getElementById("deposit-content");
 let withdrawContent = document.getElementById("withdraw-content");
 
-let linkToDeposit = document.getElementById("to-deposit");
 let linkToDashboard = document.getElementById("to-dashboard");
 let linkToWithdraw = document.getElementById("to-withdraw");
 
-const formAccountInfo = document.getElementById("getAccountInfoForm");
-const formWithdraw = document.getElementById("withdrawForm");
-
-const showDashboardContent = () => {
-  dashboardContent.style.display = "block";
-  depositContent.style.display = "none";
-  withdrawContent.style.display = "none";
-  contentTitle.innerHTML = "Dashboard";
-}
-
-const showDepositContent = () => {
-  dashboardContent.style.display = "none";
-  depositContent.style.display = "block";
-  withdrawContent.style.display = "none";
-  contentTitle.innerHTML = "Deposit";
-}
-
 const showWithdrawContent = () => {
   dashboardContent.style.display = "none";
-  depositContent.style.display = "none";
   withdrawContent.style.display = "block";
   contentTitle.innerHTML = "Withdraw";
 }
@@ -63,11 +43,42 @@ const activateNavItem = (linkElement) => {
   linkElement.classList.add("nav-item-active");
 }
 
+const dashboardFormEventListener = (form) => {
+  return async (event) => {
+    event.preventDefault();
+    clearForm(form, "accountNumber");
+
+    const formData = new FormData(form);
+    const accountNumber = formData.get("accountNumber");
+
+    if (!accountNumber) {
+      showErrorInput(form.elements["accountNumber"], "Please input valid account number");
+      return;
+    }
+
+    try {
+      let response = await findAccountByAccountNumber(accountNumber);
+      form.elements['accountName'].value = response.name;
+      form.elements['balance'].value = response.balance;
+      globalThis.localStorage.setItem(ACCOUNT_NUMBER_LOCAL_STORAGE_KEY, response.accountNumber);
+    } catch (error) {
+      const errBody = await error.json();
+      showErrorInput(form.elements['accountNumber'], errBody.detail);
+    }
+  };
+}
+
+const replaceContent = (content) => {
+  let mainContent = document.getElementById("main-section");
+  mainContent.innerHTML = "";
+  mainContent.append(content);
+  contentTitle.innerHTML = "Dashboard";
+}
 linkToDashboard.addEventListener("click", async (event) => {
   event.preventDefault();
-  showDashboardContent();
+  const {content, form} = dashboardContent();
+  replaceContent(content);
   activateNavItem(linkToDashboard);
-  clearForm(formAccountInfo);
 
   const accountNumber = globalThis.localStorage.getItem(ACCOUNT_NUMBER_LOCAL_STORAGE_KEY);
   if (accountNumber) {
@@ -76,12 +87,8 @@ linkToDashboard.addEventListener("click", async (event) => {
     formAccountInfo.elements["accountName"].value = account.name;
     formAccountInfo.elements["balance"].value = account.balance;
   }
-});
 
-linkToDeposit.addEventListener("click", (event) => {
-  event.preventDefault();
-  showDepositContent();
-  activateNavItem(linkToDeposit);
+  form.addEventListener("submit", dashboardFormEventListener(form));
 });
 
 linkToWithdraw.addEventListener("click", async (event) => {
@@ -101,6 +108,7 @@ linkToWithdraw.addEventListener("click", async (event) => {
 
 const showErrorInput = (element, errorMessage) => {
   element.classList.add("input-error");
+  element.nextElementSibling.classList.add("text-error");
   element.nextElementSibling.innerHTML = errorMessage;
 }
 
@@ -114,29 +122,6 @@ const hideSuccessInput = (element) => {
   element.hidden = true;
   element.classList.remove("success-message");
 }
-
-formAccountInfo.addEventListener("submit", async (event) => {
-  event.preventDefault();
-  clearForm(formAccountInfo, "accountNumber");
-
-  const formData = new FormData(formAccountInfo);
-  const accountNumber = formData.get("accountNumber");
-
-  if (!accountNumber) {
-    showErrorInput(formAccountInfo.elements["accountNumber"], "Please input valid account number");
-    return;
-  }
-
-  try {
-    let response = await findAccountByAccountNumber(accountNumber);
-    formAccountInfo.elements['accountName'].value = response.name;
-    formAccountInfo.elements['balance'].value = response.balance;
-    globalThis.localStorage.setItem(ACCOUNT_NUMBER_LOCAL_STORAGE_KEY, response.accountNumber);
-  } catch (error) {
-    const errBody = await error.json();
-    showErrorInput(formAccountInfo.elements['accountNumber'], errBody.detail);
-  }
-});
 
 formWithdraw.addEventListener("submit", async (event) => {
   event.preventDefault();

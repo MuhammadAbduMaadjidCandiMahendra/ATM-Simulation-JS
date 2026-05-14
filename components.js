@@ -27,14 +27,19 @@ export const dashboardContent = () => {
     id: "getAccountInfoForm",
     method: "GET",
     action: "/account",
+    className: "form-group",
     children: [accountNumber, submitButton, hr, accountName, balance],
   });
 
-  return createElement({
+  let content = createElement({
     tag: "div",
     id: "dashboard-content",
     children: [form]
   });
+  return {
+    content,
+    form
+  };
 }
 
 const createButton = ({type, className, text}) => {
@@ -52,7 +57,8 @@ const createInputGroup = ({id, type, name, labelText, placeholder}) => {
     children: [input, span]
   });
 
-  const label = createElement({tag: "label", children: labelText});
+  const label = createElement({tag: "label", children: [labelText]});
+  label.setAttribute("for", id);
   return createElement({
     tag: "div",
     className: "input-group",
@@ -73,15 +79,12 @@ const createInput = ({id, type, name, placeholder}) => {
 }
 
 const createForm = ({id, method, action, className, children}) => {
-  console.log(id, method, action, className, children);
   const form = createElement({
     tag: "form",
     id,
     className: className?? null,
     children,
   });
-
-  console.log(form);
 
   form.method = method;
   form.action = action;

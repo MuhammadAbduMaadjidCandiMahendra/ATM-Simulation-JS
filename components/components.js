@@ -1,7 +1,3 @@
-export const withdrawContent = () => {
-
-}
-
 export const createButton = ({type, className, text}) => {
   let button = createElement({tag: "button", className, children: text});
   button.type = type;

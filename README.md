@@ -2,8 +2,8 @@
 
 ## Prerequisites
 
-- Make sure the backend service is already running.\ 
-  See: https://github.com/MuhammadAbduMaadjidCandiMahendra/ATM-Simulation-JS-BE
+- Make sure the backend service is already running.\
+  See backend repository: https://github.com/MuhammadAbduMaadjidCandiMahendra/ATM-Simulation-JS-BE
 
 - Make sure Node.js is installed on your machine.
 

@@ -1,17 +1,3 @@
-export const login = async (accountNumber) => {
-  let response = await fetch("http://localhost:8080/login", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      accountNumber,
-    })
-  });
-
-  return await response.json();
-}
-
 /**
  * Find account by account number.
  * Following is an example of success response body
@@ -38,7 +24,7 @@ export const login = async (accountNumber) => {
  * @return {Promise<*>}
  */
 export const findAccountByAccountNumber = async (accountNumber) => {
-  let response = await fetch(`http://localhost:8080/account/${accountNumber}`, {
+  const response = await fetch(`http://localhost:8080/account/${accountNumber}`, {
     method: "GET",
   });
 

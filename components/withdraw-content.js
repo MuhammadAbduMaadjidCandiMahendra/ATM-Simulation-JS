@@ -1,7 +1,7 @@
 import {createButton, createElement, createForm, createInputGroup} from "./components.js";
 import {clearForm} from "../util/form-util.js";
 import {hideSuccessInput, showErrorInput, showSuccessInput} from "../util/message-util.js";
-import {findAccountByAccountNumber, withdraw} from "../http-request.js";
+import {findAccountByAccountNumber, withdraw} from "../util/http-request.js";
 import {ACCOUNT_NUMBER_LOCAL_STORAGE_KEY} from "../util/constant.js";
 
 const successNotificationSpan = () => {

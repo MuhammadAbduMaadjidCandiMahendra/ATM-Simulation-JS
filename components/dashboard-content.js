@@ -1,5 +1,5 @@
 import {ACCOUNT_NUMBER_LOCAL_STORAGE_KEY} from "../util/constant.js";
-import {findAccountByAccountNumber} from "../http-request.js";
+import {findAccountByAccountNumber} from "../util/http-request.js";
 import {createButton, createElement, createForm, createInputGroup} from "./components.js";
 import {showErrorInput} from "../util/message-util.js";
 import {clearForm} from "../util/form-util.js";

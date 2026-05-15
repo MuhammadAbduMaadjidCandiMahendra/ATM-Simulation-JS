@@ -4,7 +4,6 @@ import dashboardContent from "./components/dashboard-content.js";
 let linkToDashboard = document.getElementById("to-dashboard");
 let linkToWithdraw = document.getElementById("to-withdraw");
 
-// todo: would be nice to create a state
 document.addEventListener("DOMContentLoaded", async () => await showDashboard());
 
 linkToDashboard.addEventListener("click", async (event) => {

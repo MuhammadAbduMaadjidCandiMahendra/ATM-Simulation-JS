@@ -1,0 +1,1 @@
+export const ACCOUNT_NUMBER_LOCAL_STORAGE_KEY = "account";

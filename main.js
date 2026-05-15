@@ -1,29 +1,44 @@
 import withdrawContent from "./components/withdraw-content.js";
 import dashboardContent from "./components/dashboard-content.js";
+import {PageState, PageStateContext} from "./util/page-state.js";
+import {PAGE_STATE_NAME} from "./util/constant.js";
 
 let linkToDashboard = document.getElementById("to-dashboard");
 let linkToWithdraw = document.getElementById("to-withdraw");
 
-document.addEventListener("DOMContentLoaded", async () => await showDashboard());
+const pageStateContext = PageStateContext.from(
+  PageState(PAGE_STATE_NAME.DASHBOARD, showDashboard),
+  PageState(PAGE_STATE_NAME.WITHDRAW, showWithdraw)
+);
+
+document.addEventListener("DOMContentLoaded", async () => {
+  pageStateContext.applyCurrentState();
+});
 
 linkToDashboard.addEventListener("click", async (event) => {
   event.preventDefault();
   await showDashboard();
+  pageStateContext.saveCurrentState(PAGE_STATE_NAME.DASHBOARD);
 });
 
 linkToWithdraw.addEventListener("click", async (event) => {
   event.preventDefault();
-  const {content, onLoad} = withdrawContent();
-  showContent(content, "Withdraw");
-  activateNavItem(linkToWithdraw);
-
-  await onLoad();
+  await showWithdraw();
+  pageStateContext.saveCurrentState(PAGE_STATE_NAME.WITHDRAW);
 });
 
-const showDashboard = async () => {
+async function showDashboard() {
   const {content, onLoad} = dashboardContent();
   showContent(content, "Dashboard");
   activateNavItem(linkToDashboard);
+
+  await onLoad();
+}
+
+async function showWithdraw() {
+  const {content, onLoad} = withdrawContent();
+  showContent(content, "Withdraw");
+  activateNavItem(linkToWithdraw);
 
   await onLoad();
 }

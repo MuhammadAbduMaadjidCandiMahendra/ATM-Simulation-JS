@@ -1,53 +1,14 @@
-export const dashboardContent = () => {
-  const form = createForm({
-    id: "getAccountInfoForm",
-    method: "GET",
-    action: "/account",
-    className: "form-group",
-    children: [
-      createInputGroup({
-        id: "accountNumber",
-        type: "number",
-        name: "accountNumber",
-        labelText: "Account Number",
-        placeholder: "Type account number here...",
-      }),
-      createButton({type: "submit", className: "btn", text: "Find account info"}),
-      createElement({tag: "hr"}),
-      createInputGroup({
-        id: "accountName",
-        type: "text",
-        name: "accountName",
-        labelText: "Name",
-        inputAttributeMap: new Map([["readonly", "true"]]),
-      }),
-      createInputGroup({
-        id: "balance",
-        type: "number",
-        name: "balance",
-        labelText: "Balance",
-        attributeMap: new Map([["readonly", "true"]]),
-      })],
-  });
+export const withdrawContent = () => {
 
-  let content = createElement({
-    tag: "div",
-    id: "dashboard-content",
-    children: [form]
-  });
-  return {
-    content,
-    form
-  };
 }
 
-const createButton = ({type, className, text}) => {
+export const createButton = ({type, className, text}) => {
   let button = createElement({tag: "button", className, children: text});
   button.type = type;
   return button;
 }
 
-const createInputGroup = ({id, type, name, labelText, placeholder, inputAttributeMap}) => {
+export const createInputGroup = ({id, type, name, labelText, placeholder, inputAttributeMap}) => {
   const input = createInput({id, type, name, placeholder, inputAttributeMap});
   const span = createElement({tag: "span"});
   const innerDiv = createElement({
@@ -65,7 +26,7 @@ const createInputGroup = ({id, type, name, labelText, placeholder, inputAttribut
   });
 }
 
-const createInput = ({id, type, name, placeholder, inputAttributeMap}) => {
+export const createInput = ({id, type, name, placeholder, inputAttributeMap}) => {
   const input = createElement({
     tag: "input",
     id,
@@ -78,7 +39,7 @@ const createInput = ({id, type, name, placeholder, inputAttributeMap}) => {
   return input;
 }
 
-const createForm = ({id, method, action, className, children}) => {
+export const createForm = ({id, method, action, className, children}) => {
   const form = createElement({
     tag: "form",
     id,
@@ -91,7 +52,7 @@ const createForm = ({id, method, action, className, children}) => {
   return form;
 }
 
-const createElement = ({tag, id, className, children, attributeMap}) => {
+export const createElement = ({tag, id, className, children, attributeMap}) => {
   if (!tag) {
     throw new Error("Tag is required");
   }

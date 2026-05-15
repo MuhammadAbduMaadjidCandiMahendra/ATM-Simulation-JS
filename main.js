@@ -1,5 +1,6 @@
 import {findAccountByAccountNumber, withdraw} from "./http-request.js";
-import {dashboardContent} from "./components.js";
+
+import dashboardContent from "./components/dashboard-content.js";
 
 const ACCOUNT_NUMBER_LOCAL_STORAGE_KEY = "account";
 

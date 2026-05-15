@@ -1,34 +1,33 @@
 export const dashboardContent = () => {
-  const accountNumber = createInputGroup({
-    id: "accountNumber",
-    type: "number",
-    name: "accountNumber",
-    labelText: "Account Number",
-    placeholder: "Type account number here...",
-  });
-  const submitButton = createButton({type: "submit", className: "btn", text: "Find account info"})
-  const hr = createElement({tag: "hr"});
-  const accountName = createInputGroup({
-    id: "accountName",
-    type: "text",
-    name: "accountName",
-    labelText: "Name",
-  });
-  accountName.readOnly = true;
-  const balance = createInputGroup({
-    id: "balance",
-    type: "number",
-    name: "balance",
-    labelText: "Balance",
-  });
-  balance.readOnly = true;
-
   const form = createForm({
     id: "getAccountInfoForm",
     method: "GET",
     action: "/account",
     className: "form-group",
-    children: [accountNumber, submitButton, hr, accountName, balance],
+    children: [
+      createInputGroup({
+        id: "accountNumber",
+        type: "number",
+        name: "accountNumber",
+        labelText: "Account Number",
+        placeholder: "Type account number here...",
+      }),
+      createButton({type: "submit", className: "btn", text: "Find account info"}),
+      createElement({tag: "hr"}),
+      createInputGroup({
+        id: "accountName",
+        type: "text",
+        name: "accountName",
+        labelText: "Name",
+        inputAttributeMap: new Map([["readonly", "true"]]),
+      }),
+      createInputGroup({
+        id: "balance",
+        type: "number",
+        name: "balance",
+        labelText: "Balance",
+        attributeMap: new Map([["readonly", "true"]]),
+      })],
   });
 
   let content = createElement({

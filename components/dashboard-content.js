@@ -32,7 +32,7 @@ const dashboardContent = () => {
       })],
   });
 
-  let content = createElement({
+  const content = createElement({
     tag: "div",
     id: "dashboard-content",
     children: [form]

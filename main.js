@@ -1,21 +1,13 @@
 import {findAccountByAccountNumber, withdraw} from "./http-request.js";
 
 import dashboardContent from "./components/dashboard-content.js";
+import withdrawContent from "./components/withdraw-content.js";
 
 const ACCOUNT_NUMBER_LOCAL_STORAGE_KEY = "account";
 
 let contentTitle = document.getElementById("content-title");
-
-let withdrawContent = document.getElementById("withdraw-content");
-
 let linkToDashboard = document.getElementById("to-dashboard");
 let linkToWithdraw = document.getElementById("to-withdraw");
-
-const showWithdrawContent = () => {
-  dashboardContent.style.display = "none";
-  withdrawContent.style.display = "block";
-  contentTitle.innerHTML = "Withdraw";
-}
 
 const clearForm = (form, ...excludeInputNames) => {
   for (const inputElement of form.elements) {
@@ -69,17 +61,18 @@ const dashboardFormEventListener = (form) => {
   };
 }
 
-const replaceContent = (content) => {
+const replaceContent = (content, pageTitle) => {
   let mainContent = document.getElementById("main-section");
   mainContent.innerHTML = "";
   mainContent.append(content);
-  contentTitle.innerHTML = "Dashboard";
+
+  contentTitle.innerHTML = pageTitle;
 }
 
 linkToDashboard.addEventListener("click", async (event) => {
   event.preventDefault();
   const {content, form} = dashboardContent();
-  replaceContent(content);
+  replaceContent(content, "Dashboard");
   activateNavItem(linkToDashboard);
 
   const accountNumber = globalThis.localStorage.getItem(ACCOUNT_NUMBER_LOCAL_STORAGE_KEY);
@@ -93,20 +86,55 @@ linkToDashboard.addEventListener("click", async (event) => {
   form.addEventListener("submit", dashboardFormEventListener(form));
 });
 
-// linkToWithdraw.addEventListener("click", async (event) => {
-//   event.preventDefault();
-//   showWithdrawContent();
-//   activateNavItem(linkToWithdraw);
-//   clearForm(formWithdraw);
-//   hideSuccessInput(document.getElementById("withdrawSuccess"));
-//
-//   const accountNumber = globalThis.localStorage.getItem(ACCOUNT_NUMBER_LOCAL_STORAGE_KEY);
-//   if (accountNumber) {
-//     const account = await findAccountByAccountNumber(accountNumber);
-//     formWithdraw.elements["accountNumber"].value = account.accountNumber;
-//     formWithdraw.elements["balance"].value = account.balance;
-//   }
-// });
+linkToWithdraw.addEventListener("click", async (event) => {
+  event.preventDefault();
+  const {content, form} = withdrawContent();
+  replaceContent(content, "Withdraw");
+  activateNavItem(linkToWithdraw);
+
+  hideSuccessInput(document.getElementById("withdrawSuccess"));
+
+  const accountNumber = globalThis.localStorage.getItem(ACCOUNT_NUMBER_LOCAL_STORAGE_KEY);
+  if (accountNumber) {
+    const account = await findAccountByAccountNumber(accountNumber);
+    form.elements["accountNumber"].value = account.accountNumber;
+    form.elements["balance"].value = account.balance;
+  }
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    clearForm(form, "accountNumber", "balance", "withdrawAmount");
+    hideSuccessInput(document.getElementById("withdrawSuccess"));
+
+    const formData = new FormData(form);
+    const accountNumber = formData.get("accountNumber");
+    const withdrawAmount = formData.get("withdrawAmount");
+
+    if (!accountNumber) {
+      showErrorInput(form.elements["accountNumber"], "Account number is required");
+      return;
+    }
+
+    if (!withdrawAmount) {
+      showErrorInput(form.elements["withdrawAmount"], "Withdraw amount is required");
+      return;
+    }
+
+    if (withdrawAmount <= 0) {
+      showErrorInput(form.elements["withdrawAmount"], "Should be greater than 0");
+      return;
+    }
+
+    try {
+      const account = await withdraw(accountNumber, withdrawAmount);
+      form.elements["balance"].value = account.balance;
+      showSuccessInput(document.getElementById("withdrawSuccess"), `Withdraw ${withdrawAmount} successful`);
+    } catch (error) {
+      const errBody = await error.json();
+      showErrorInput(form.elements["withdrawAmount"], errBody.detail);
+    }
+  });
+});
 
 const showErrorInput = (element, errorMessage) => {
   element.classList.add("input-error");
@@ -124,38 +152,3 @@ const hideSuccessInput = (element) => {
   element.hidden = true;
   element.classList.remove("success-message");
 }
-
-// formWithdraw.addEventListener("submit", async (event) => {
-//   event.preventDefault();
-//   clearForm(formWithdraw, "accountNumber", "balance", "withdrawAmount");
-//   hideSuccessInput(document.getElementById("withdrawSuccess"));
-//
-//   const formData = new FormData(formWithdraw);
-//   const accountNumber = formData.get("accountNumber");
-//   const withdrawAmount = formData.get("withdrawAmount");
-//
-//   if (!accountNumber) {
-//     showErrorInput(formWithdraw.elements["accountNumber"], "Account number is required");
-//     return;
-//   }
-//
-//   if (!withdrawAmount) {
-//     showErrorInput(formWithdraw.elements["withdrawAmount"], "Withdraw amount is required");
-//     return;
-//   }
-//
-//   if (withdrawAmount <= 0) {
-//     showErrorInput(formWithdraw.elements["withdrawAmount"], "Should be greater than 0");
-//     return;
-//   }
-//
-//   try {
-//     const account = await withdraw(accountNumber, withdrawAmount);
-//     formWithdraw.elements["balance"].value = account.balance;
-//     showSuccessInput(document.getElementById("withdrawSuccess"), `Withdraw ${withdrawAmount} successful`);
-//   } catch (error) {
-//     const errBody = await error.json();
-//     showErrorInput(formWithdraw.elements["withdrawAmount"], errBody.detail);
-//   }
-// });
-

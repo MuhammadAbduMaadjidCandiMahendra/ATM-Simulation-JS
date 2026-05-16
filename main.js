@@ -1,14 +1,17 @@
 import withdrawContent from "./components/withdraw-content.js";
 import dashboardContent from "./components/dashboard-content.js";
+import depositContent from "./components/deposit-content.js";
 import {PageState, PageStateContext} from "./util/page-state.js";
 import {PAGE_STATE_NAME} from "./util/constant.js";
 
-let linkToDashboard = document.getElementById("to-dashboard");
-let linkToWithdraw = document.getElementById("to-withdraw");
+const linkToDashboard = document.getElementById("to-dashboard");
+const linkToWithdraw = document.getElementById("to-withdraw");
+const linkToDeposit = document.getElementById("to-deposit");
 
 const pageStateContext = PageStateContext.from(
   PageState(PAGE_STATE_NAME.DASHBOARD, showDashboard),
-  PageState(PAGE_STATE_NAME.WITHDRAW, showWithdraw)
+  PageState(PAGE_STATE_NAME.WITHDRAW, showWithdraw),
+  PageState(PAGE_STATE_NAME.DEPOSIT, showDeposit),
 );
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -27,6 +30,12 @@ linkToWithdraw.addEventListener("click", async (event) => {
   pageStateContext.saveCurrentState(PAGE_STATE_NAME.WITHDRAW);
 });
 
+linkToDeposit.addEventListener("click", async (event) => {
+  event.preventDefault();
+  await showDeposit();
+  pageStateContext.saveCurrentState(PAGE_STATE_NAME.DEPOSIT);
+});
+
 async function showDashboard() {
   const {content, onLoad} = dashboardContent();
   showContent(content, "Dashboard");
@@ -39,6 +48,14 @@ async function showWithdraw() {
   const {content, onLoad} = withdrawContent();
   showContent(content, "Withdraw");
   activateNavItem(linkToWithdraw);
+
+  await onLoad();
+}
+
+async function showDeposit() {
+  const {content, onLoad} = depositContent();
+  showContent(content, "Deposit");
+  activateNavItem(linkToDeposit);
 
   await onLoad();
 }

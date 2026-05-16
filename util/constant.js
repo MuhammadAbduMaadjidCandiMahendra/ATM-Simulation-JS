@@ -4,4 +4,5 @@ export const PAGE_STATE_STORAGE_KEY = "page-state";
 export const PAGE_STATE_NAME = {
   DASHBOARD: "dashboard",
   WITHDRAW: "withdraw",
+  DEPOSIT: "deposit"
 }

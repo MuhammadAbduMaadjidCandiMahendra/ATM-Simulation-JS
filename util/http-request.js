@@ -80,3 +80,49 @@ export const withdraw = async (accountNumber, amount) => {
 
   return await response.json();
 }
+
+/**
+ * Deposit money into an account.
+ * If successful, the server will return HTTP status 200 with account details body:
+ * <pre>
+ * {
+ *   "accountNumber": "100001",
+ *   "name": "John Doe",
+ *   "balance": 5050
+ * }
+ * </pre>
+ *
+ * Any return status other than 200 will be treated as an error.
+ * Following is an example of an error response body:
+ * <pre>
+ * {
+ *   "detail": "Account not found",
+ *   "instance": "/transaction/deposit",
+ *   "status": 400,
+ *   "title": "Bad Request",
+ *   "type": "https://localhost:8080/problems/bad-request"
+ * }
+ * </pre>
+ *
+ * @param accountNumber
+ * @param amount
+ * @return {Promise<any>}
+ */
+export const deposit = async (accountNumber, amount) => {
+  const response = await fetch(`http://localhost:8080/transaction/deposit`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      accountNumber,
+      amount,
+    })
+  });
+
+  if (!response.ok) {
+    throw response;
+  }
+
+  return await response.json();
+}

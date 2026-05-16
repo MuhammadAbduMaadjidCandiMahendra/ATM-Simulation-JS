@@ -4,17 +4,6 @@ import {hideSuccessInput, showErrorInput, showSuccessInput} from "../util/messag
 import {findAccountByAccountNumber, withdraw} from "../util/http-request.js";
 import {ACCOUNT_NUMBER_LOCAL_STORAGE_KEY} from "../util/constant.js";
 
-const successNotificationSpan = () => {
-  return createElement({
-    tag: "div",
-    className: "input-group",
-    children: [
-      createElement({tag: "div"}),
-      createElement({tag: "span", id: "withdrawSuccess", attributeMap: new Map([["hidden", "true"]])}),
-    ]
-  });
-}
-
 const createWithdrawForm = () => {
   return createForm({
     id: "withdrawForm",
@@ -27,7 +16,6 @@ const createWithdrawForm = () => {
         type: "number",
         name: "accountNumber",
         labelText: "Account Number",
-        className: "form-group",
         inputAttributeMap: new Map([["readonly", "true"]]),
       }),
       createInputGroup({
@@ -35,7 +23,6 @@ const createWithdrawForm = () => {
         type: "number",
         name: "balance",
         labelText: "Balance",
-        className: "form-group",
         inputAttributeMap: new Map([["readonly", "true"]]),
       }),
       createInputGroup({
@@ -43,10 +30,16 @@ const createWithdrawForm = () => {
         type: "number",
         name: "withdrawAmount",
         labelText: "Withdraw Amount",
-        className: "form-group",
         placeholder: "Type withdraw amount here...",
       }),
-      successNotificationSpan(),
+      createElement({
+        tag: "div",
+        className: "input-group",
+        children: [
+          createElement({tag: "div"}),
+          createElement({tag: "span", id: "withdrawSuccess", attributeMap: new Map([["hidden", "true"]])}),
+        ]
+      }),
       createButton({type: "submit", className: "btn", text: "Withdraw"}),
     ]
   });
